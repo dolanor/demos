@@ -2,9 +2,8 @@ package main
 
 import (
 	_ "embed"
-	"fmt"
+	"image"
 	"log"
-	"net/http"
 	"time"
 
 	"github.com/dolanor/demos/greeting"
@@ -65,25 +64,6 @@ func main() {
 	}
 	a.Subscribe(window.OnWindowSize, onResize)
 	onResize("", nil)
-	go func() {
-		//update player wins from server http://localhost:8080/players or http://192.168.20.95:8080/players
-		for range time.Tick(1 * time.Second) {
-			func() {
-				wins, err := http.Get(firstSrv + "/players")
-				if err != nil {
-					fmt.Println("First Server : ", err)
-					err = nil
-					wins, err = http.Get(secondSrv + "/players")
-					if err != nil {
-						fmt.Println("Second Server : ", err)
-						return
-					}
-				}
-				defer wins.Body.Close() // close wins.Body when function returns
-				title.SetText(greeting.Greet("Dagger friends"))
-			}()
-		}
-	}()
 
 	a.Run(func(renderer *renderer.Renderer, deltaTime time.Duration) {
 		a.Gls().Clear(gls.DEPTH_BUFFER_BIT | gls.STENCIL_BUFFER_BIT | gls.COLOR_BUFFER_BIT)
