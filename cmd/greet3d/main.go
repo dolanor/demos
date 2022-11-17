@@ -100,7 +100,7 @@ func (e *Earth) setupGUI() {
 	title = gui.NewLabel(" ")
 	title.SetFontSize(fontSize)
 	title.SetLayoutParams(&gui.HBoxLayoutParams{AlignV: gui.AlignCenter})
-	title.SetText(greeting.Greet("Dagger friends!"))
+	title.SetText(greeting.Greet("Dagger friends"))
 	title.SetColor4(&lightTextColor)
 	header.Add(title)
 
