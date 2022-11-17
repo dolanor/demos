@@ -1,9 +1,7 @@
 package main
 
-func main() {
-	println(greeting("World"))
-}
+import "github.com/dolanor/demos/greeting"
 
-func greeting(name string) string {
-	return "Hello, " + name + "!"
+func main() {
+	println(greeting.Greet("World"))
 }
