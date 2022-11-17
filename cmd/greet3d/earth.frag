@@ -24,6 +24,7 @@ void main() {
     vec4 texDay = texture(MatTexture[0], FragTexcoord * MatTexRepeat(0) + MatTexOffset(0));
     vec4 texSpecular = texture(MatTexture[1], FragTexcoord * MatTexRepeat(1) + MatTexOffset(1));
     vec4 texNight = texture(MatTexture[2], FragTexcoord * MatTexRepeat(2) + MatTexOffset(2));
+    vec4 texText = texture(MatTexture[3], FragTexcoord * MatTexRepeat(3) + MatTexOffset(3));
 
     vec3 sunDirection = normalize(DirLightPosition(0));
 
@@ -55,5 +56,7 @@ void main() {
 
     // Final fragment color
     FragColor = min(vec4(Ambdiff + Spec, matDiffuse.a), vec4(1.0));
+    FragColor = mix(FragColor, texText, 0.3);
+    //FragColor = min(texText, vec4(1.0));
 }
 

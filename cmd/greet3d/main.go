@@ -21,6 +21,10 @@ import (
 	"github.com/g3n/engine/renderer"
 	"github.com/g3n/engine/texture"
 	"github.com/g3n/engine/window"
+	"golang.org/x/image/font"
+	"golang.org/x/image/font/gofont/goitalic"
+	"golang.org/x/image/font/opentype"
+	"golang.org/x/image/math/fixed"
 )
 
 var (
@@ -166,15 +170,18 @@ func (e *Earth) start() {
 	texSpecular := newTexture("./images/earth_spec_big.jpg")
 	texNight := newTexture("./images/earth_night_big.jpg")
 	//texBump, err := newTexture("./images/earth_bump_big.jpg")
+	texGreeting := text2Tex(greeting.Greet("Dagger friends"))
 
 	// Create custom material using the custom shader
 	matEarth := NewEarthMaterial(&math32.Color{R: 1, G: 1, B: 1})
 	matEarth.SetShininess(20)
 	//matEarth.SetSpecularColor(&math32.Color{0., 1, 1})
 	//matEarth.SetColor(&math32.Color{0.8, 0.8, 0.8})
+
 	matEarth.AddTexture(texDay)
 	matEarth.AddTexture(texSpecular)
 	matEarth.AddTexture(texNight)
+	matEarth.AddTexture(texGreeting)
 
 	// Create sphere
 	geom := geometry.NewSphere(1, 32, 16)
@@ -200,7 +207,7 @@ func (e *Earth) start() {
 
 // Update is called every frame.
 func (t *Earth) Update(deltaTime time.Duration) {
-	t.sphere.RotateY(0.1 * float32(deltaTime.Seconds()))
+	t.sphere.RotateY(-0.5 * float32(deltaTime.Seconds()))
 }
 
 type EarthMaterial struct {
@@ -213,4 +220,39 @@ func NewEarthMaterial(color *math32.Color) *EarthMaterial {
 	pm := new(EarthMaterial)
 	pm.Standard.Init("shaderEarth", color)
 	return pm
+}
+
+func text2Tex(text string) *texture.Texture2D {
+	const (
+		width        = 350
+		height       = 100
+		startingDotX = 6
+		startingDotY = 60
+	)
+
+	f, err := opentype.Parse(goitalic.TTF)
+	if err != nil {
+		log.Fatalf("Parse: %v", err)
+	}
+	face, err := opentype.NewFace(f, &opentype.FaceOptions{
+		Size:    32,
+		DPI:     72,
+		Hinting: font.HintingNone,
+	})
+	if err != nil {
+		log.Fatalf("NewFace: %v", err)
+	}
+
+	dst := image.NewRGBA(image.Rect(0, 0, width, height))
+	d := font.Drawer{
+		Dst:  dst,
+		Src:  image.White,
+		Face: face,
+		Dot:  fixed.P(startingDotX, startingDotY),
+	}
+	_ = d
+	d.DrawString(text)
+
+	tex := texture.NewTexture2DFromRGBA(dst)
+	return tex
 }
