@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "ts-node": "^10.9.1"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@dagger.io/dagger": "^0.1.0-alpha.4"
+  }
+}
