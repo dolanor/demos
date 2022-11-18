@@ -26,4 +26,4 @@ connect(async (client: Client) => {
 				.export(`build/${goos}/${goarch}/dagger-greetings`)
 		}))
 	}))
-});
+}, {LogOutput: process.stdout});
