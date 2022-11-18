@@ -150,7 +150,7 @@ func (e *Earth) start() {
 	texSpecular := newTexture("./images/earth_spec_big.jpg")
 	texNight := newTexture("./images/earth_night_big.jpg")
 	//texBump, err := newTexture("./images/earth_bump_big.jpg")
-	texGreeting := text2Tex(greeting.Greet("Dagger friends"))
+	texGreeting := text2Tex(greeting.Greet("World"))
 
 	// Create custom material using the custom shader
 	matEarth := NewEarthMaterial(&math32.Color{R: 1, G: 1, B: 1})
