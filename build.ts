@@ -12,8 +12,11 @@ connect(async (client: Client) => {
 		.cacheVolume("gomodcache")
 		.id()
 
-	let goarches = ["amd64", "arm64"]
-	let geese = ["linux", "macos"]
+	let goarches = [
+		"amd64",
+		//"arm64",
+	]
+	let geese = ["linux"]
 
 	await Promise.all(goarches.map(async (goarch) => {
 		await Promise.all(geese.map(async (goos) => {
