@@ -5,7 +5,7 @@ connect(async (client: Client) => {
 
 	let srcId = await client
 		.host()
-		.workdir([".gitignore", "node_modules", "build.ts"])
+		.workdir({exclude: [".gitignore", "node_modules", "build.ts"]})
 		.id()
 
 	let gocache = await client
@@ -22,22 +22,22 @@ connect(async (client: Client) => {
 		await Promise.all(geese.map(async (goos) => {
 
 			let go = client
-				.container(undefined, `${goos}/${goarch}`)
+				.container({ platform: `${goos}/${goarch}` })
 				.from("golang:1.19")
 
 
 			let deps = go
-				.exec(["apt-get", "update"])
-				.exec(["apt-get", "install", "-y", "xorg-dev", "libgl1-mesa-dev", "libopenal1", "libopenal-dev", "libvorbis0a", "libvorbis-dev", "libvorbisfile3"])
+				.exec({args: ["apt-get", "update"]})
+				.exec({args: ["apt-get", "install", "-y", "xorg-dev", "libgl1-mesa-dev", "libopenal1", "libopenal-dev", "libvorbis0a", "libvorbis-dev", "libvorbisfile3"]})
 
 			let builder = deps
-				.withMountedCache("/cache", gocache.id)
+				.withMountedCache("/cache", gocache)
 				.withEnvVariable("GOMODCACHE", "/cache")
-				.withMountedDirectory("/app", srcId.id)
+				.withMountedDirectory("/app", srcId)
 				.withWorkdir("/app/cmd/greet3d")
 				.withEnvVariable("GOOS", goos)
 				.withEnvVariable("GOARCH", goarch)
-				.exec(["go", "build", "-o", `greet3d`])
+				.exec({args: ["go", "build", "-o", `greet3d`]})
 
 			await builder
 				.directory("/app/cmd/greet3d/images")
