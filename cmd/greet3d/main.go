@@ -96,7 +96,7 @@ func (e *Earth) setupGUI() {
 	e.mainPanel.Add(header)
 
 	// Header title
-	const fontSize = 50
+	const fontSize = 30
 	title = gui.NewLabel(" ")
 	title.SetFontSize(fontSize)
 	title.SetLayoutParams(&gui.HBoxLayoutParams{AlignV: gui.AlignCenter})
@@ -204,7 +204,7 @@ func NewEarthMaterial(color *math32.Color) *EarthMaterial {
 
 func text2Tex(text string) *texture.Texture2D {
 	const (
-		width        = 350
+		width        = 450
 		height       = 100
 		startingDotX = 6
 		startingDotY = 60
