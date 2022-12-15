@@ -4,7 +4,7 @@ import fs from "node:fs"
  // initialize Dagger client
 connect(async (client: Client) => {
 	let textFile = fs.openSync("myTextFile", "w")
-	fs.writeFileSync(textFile, "my text content")
+	fs.writeFileSync(textFile, "my text content\n")
 
 	let packageFile = await client
 		.host()

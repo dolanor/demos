@@ -6,7 +6,7 @@ connect(async (client: Client) => {
 	await client
 		.container()
 		.from("node")
-		.withNewFile("/tmp/filedir/myTextFile", { contents: "my text content" })
+		.withNewFile("/tmp/filedir/myTextFile", { contents: "my text content\n" })
 		.withExec([ "cat", "/tmp/filedir/myTextFile" ])
 		.stdout()
 }, {LogOutput: process.stdout});
