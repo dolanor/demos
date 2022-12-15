@@ -4,6 +4,6 @@
   },
   "type": "module",
   "devDependencies": {
-    "@dagger.io/dagger": "^0.1.0"
+    "@dagger.io/dagger": "^0.3.0"
   }
 }

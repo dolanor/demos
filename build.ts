@@ -3,14 +3,12 @@ import Client, { connect } from "@dagger.io/dagger"
  // initialize Dagger client
 connect(async (client: Client) => {
 
-	let srcId = await client
+	let src = client
 		.host()
 		.workdir({exclude: [".gitignore", "node_modules", "build.ts"]})
-		.id()
 
-	let gocache = await client
+	let gocache = client
 		.cacheVolume("gomodcache")
-		.id()
 
 	let goarches = [
 		"amd64",
@@ -27,17 +25,17 @@ connect(async (client: Client) => {
 
 
 			let deps = go
-				.exec({args: ["apt-get", "update"]})
-				.exec({args: ["apt-get", "install", "-y", "xorg-dev", "libgl1-mesa-dev", "libopenal1", "libopenal-dev", "libvorbis0a", "libvorbis-dev", "libvorbisfile3"]})
+				.withExec(["apt-get", "update"])
+				.withExec(["apt-get", "install", "-y", "xorg-dev", "libgl1-mesa-dev", "libopenal1", "libopenal-dev", "libvorbis0a", "libvorbis-dev", "libvorbisfile3"])
 
 			let builder = deps
 				.withMountedCache("/cache", gocache)
 				.withEnvVariable("GOMODCACHE", "/cache")
-				.withMountedDirectory("/app", srcId)
+				.withMountedDirectory("/app", src)
 				.withWorkdir("/app/cmd/greet3d")
 				.withEnvVariable("GOOS", goos)
 				.withEnvVariable("GOARCH", goarch)
-				.exec({args: ["go", "build", "-o", `greet3d`]})
+				.withExec(["go", "build", "-o", `greet3d`])
 
 			await builder
 				.directory("/app/cmd/greet3d/images")
