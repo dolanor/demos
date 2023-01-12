@@ -3,32 +3,32 @@ import Client, { connect } from "@dagger.io/dagger"
  // initialize Dagger client
 connect(async (client: Client) => {
 
-	let src = client
+	const src = client
 		.host()
-		.workdir({exclude: [".gitignore", "node_modules", "build.ts"]})
+		.directory(".", {exclude: [".gitignore", "node_modules", "build.ts"]})
 
-	let gocache = client
+	const gocache = client
 		.cacheVolume("gomodcache")
 
-	let goarches = [
+	const goarches = [
 		"amd64",
 		//"arm64",
 	]
-	let geese = ["linux"]
+	const geese = ["linux"]
 
 	await Promise.all(goarches.map(async (goarch) => {
 		await Promise.all(geese.map(async (goos) => {
 
-			let go = client
+			const go = client
 				.container({ platform: `${goos}/${goarch}` })
 				.from("golang:1.19")
 
 
-			let deps = go
+			const deps = go
 				.withExec(["apt-get", "update"])
 				.withExec(["apt-get", "install", "-y", "xorg-dev", "libgl1-mesa-dev", "libopenal1", "libopenal-dev", "libvorbis0a", "libvorbis-dev", "libvorbisfile3"])
 
-			let builder = deps
+			const builder = deps
 				.withMountedCache("/cache", gocache)
 				.withEnvVariable("GOMODCACHE", "/cache")
 				.withMountedDirectory("/app", src)
