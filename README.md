@@ -1,4 +1,4 @@
-# [Dagger](https://dagger.io) Demo
+# [<img height="50px" src="https://dagger.io/logo.svg">](https://dagger.io) Demos
 
 This holds the demos I present during our [Community Calls](https://dagger.io/events).
 
