@@ -5,7 +5,7 @@ connect(async (client: Client) => {
 
 	const src = client
 		.host()
-		.directory(".", {exclude: [".gitignore", "node_modules", "build.ts"]})
+		.directory(".", {exclude: [".gitignore", "node_modules", "build.ts", "build"]})
 
 	const gocache = client
 		.cacheVolume("gomodcache")
