@@ -2,6 +2,8 @@ module gosnyk
 
 go 1.19
 
+replace dagger.io/dagger => /home/dolanor/src/dagger/sdk/go
+
 require dagger.io/dagger v0.5.0
 
 require (
