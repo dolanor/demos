@@ -2,26 +2,27 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
 	"dagger.io/dagger"
+
+	"github.com/dolanor/demos/secret/gcp"
 	"github.com/dolanor/demos/secret/scaleway"
-	secret "github.com/scaleway/scaleway-sdk-go/api/secret/v1alpha1"
-	"github.com/scaleway/scaleway-sdk-go/scw"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
 	ctx := context.Background()
+	secretID := "my-personal-secret-id"
 
-	secretID := "8cfafcab-7309-4625-a9c9-175644c008ca"
-	secretRevision := "1"
-
-	scwProfile := scaleway.LoadConfig()
-
-	// get the secret from Scaleway Secret Manager
-	secretPlaintext, err := scaleway.GetSecretPlaintext(ctx, scwProfile, secretID, secretRevision)
+	secretPlaintext, err := scwSecret(ctx)
+	// secretPlaintext, err := gcpSecret(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -67,30 +68,22 @@ func main() {
 	}
 }
 
-func scwGetSecretPlaintext(ctx context.Context, scwProfile *scw.Profile, secretID, secretRevision string) (string, error) {
-	scwClient, err := scw.NewClient(
-		scw.WithProfile(scwProfile),
-	)
-	if err != nil {
-		return "", fmt.Errorf("scw.NewClient: %w", err)
-	}
-	secReq := &secret.AccessSecretVersionRequest{
-		Region:   scw.RegionFrPar,
-		SecretID: secretID,
-		Revision: "1",
-	}
+func scwSecret(ctx context.Context) (string, error) {
+	scwSecretID := "8cfafcab-7309-4625-a9c9-175644c008ca"
+	secretRevision := "2"
 
-	secAPI := secret.NewAPI(scwClient)
-	if err != nil {
-		return "", fmt.Errorf("secret.NewAPI: %w", err)
-	}
+	scwConfig := scaleway.LoadConfig()
 
-	res, err := secAPI.AccessSecretVersion(secReq, scw.WithContext(ctx))
-	if err != nil {
-		return "", fmt.Errorf("AccessSecretVersion: %w", err)
-	}
+	// get the secret from Scaleway Secret Manager
+	return scaleway.GetSecretPlaintext(ctx, scwConfig, scwSecretID, secretRevision)
+}
 
-	secretPlaintext := res.Data
+func gcpSecret(ctx context.Context) (string, error) {
+	// You need to have your GOOGLE_APPLICATION_CREDENTIALS env var set to point to your json credentials
+	projectID := "test-dagger-io"
+	gcpSecretID := "my-personal-secret-id"
+	secretRevision := "2"
 
-	return string(secretPlaintext), nil
+	// get the secret from Google Cloud Secret Manager
+	return gcp.GetSecretPlaintext(ctx, projectID, gcpSecretID, secretRevision)
 }

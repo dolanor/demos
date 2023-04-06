@@ -5,6 +5,7 @@ go 1.20
 require (
 	cloud.google.com/go/secretmanager v1.10.0
 	dagger.io/dagger v0.5.2
+	github.com/joho/godotenv v1.5.1
 	github.com/scaleway/scaleway-sdk-go v1.0.0-beta.15
 )
 

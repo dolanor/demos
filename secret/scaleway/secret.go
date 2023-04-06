@@ -18,7 +18,7 @@ func GetSecretPlaintext(ctx context.Context, config *Config, secretID, secretRev
 	secReq := &secret.AccessSecretVersionRequest{
 		Region:   scw.RegionFrPar,
 		SecretID: secretID,
-		Revision: "1",
+		Revision: secretRevision,
 	}
 
 	secAPI := secret.NewAPI(scwClient)
