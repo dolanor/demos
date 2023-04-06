@@ -4,7 +4,7 @@ import Client, { connect } from "@dagger.io/dagger"
 connect(async (client: Client) => {
 	const go = await client
 		.container()
-		.from("golang:1.19")
+		.from("golang:1.20.2-alpine3.17")
 
 	const src = await client
 		.host()

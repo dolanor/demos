@@ -21,7 +21,7 @@ connect(async (client: Client) => {
 
 			const go = client
 				.container({ platform: `${goos}/${goarch}` })
-				.from("golang:1.19")
+				.from("golang:1.20.2-alpine3.17")
 
 
 			const deps = go
