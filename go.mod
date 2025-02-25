@@ -7,7 +7,7 @@ toolchain go1.23.2
 require (
 	dagger.io/dagger v0.16.1
 	github.com/g3n/engine v0.2.0
-	golang.org/x/image v0.15.0
+	golang.org/x/image v0.24.0
 )
 
 require (
@@ -15,7 +15,7 @@ require (
 	github.com/Khan/genqlient v0.8.0 // indirect
 	github.com/adrg/xdg v0.5.3 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
-	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20240118000515-a250818d05e3 // indirect
+	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20240506104042-037f3cc74f2a // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
