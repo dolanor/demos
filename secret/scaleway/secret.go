@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	secret "github.com/scaleway/scaleway-sdk-go/api/secret/v1alpha1"
+	secret "github.com/scaleway/scaleway-sdk-go/api/secret/v1beta1"
 	"github.com/scaleway/scaleway-sdk-go/scw"
 )
 
